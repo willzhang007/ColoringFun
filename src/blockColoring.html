@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Coloring Fun</title>
+    <link rel='shortcut icon' href='https://cdn3.iconfinder.com/data/icons/basic-mobile-part-2/512/painter-512.png' type='image/x-icon'/ >
+
+    <!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+    <script src="lib/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+    <!--<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>-->
+    <script src='lib/TweenMax.min.js'></script>
+
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+    <link rel="stylesheet" href="css/blockColoring.css"/>
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAU_cY0FMBbH8U9p5l_pM4pA87p78q40QA",
+            authDomain: "coloringfun.firebaseapp.com",
+            databaseURL: "https://coloringfun.firebaseio.com",
+            storageBucket: "firebase-coloringfun.appspot.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class='holder'>
+    <div class="row">
+        <div class="col s6 m6 l6" style="margin-left: 20px; height:800px">
+            <div class="input-field">
+                <input placeholder="Input Filename Here" id="fileName" type="text" class="validate">
+                <label for="fileName">File name</label>
+            </div>
+            <div class='held' id='svgCanvas' style="max-width:100%; max-height:100%;object-fit: contain">
+
+            </div>
+        </div>
+        <div class="col s6 m6 l4" id="t" style="margin-top: 60px">
+            <!--<div class="card-title grey-text text-darken-4">-->
+            <div id="wrapper">
+                <div class="centerindiv">
+                    <div class="color">
+                        <div class="show-color" id="rgb"></div>
+                    </div>
+                    <div id="swatch" class="centerindiv">
+                        <!--<img class="activator" src="images/office.jpg">-->
+                    </div>
+                    <div id="ranges" class="centerindiv">
+                        <!--<form action="#">-->
+                        <div class="range-field">
+                            <input type="range" class="bGround red" id="red" min="0" max="255" value="127">
+                        </div>
+                        <!--</form>-->
+                        <!--<form action="#">-->
+                        <div class="range-field">
+                            <input type="range" class="bGround green" id="green" min="0" max="255"
+                                   value="127">
+                        </div>
+                        <!--</form>-->
+                        <!--<form action="#">-->
+                        <div class="range-field">
+                            <input type="range" class="bGround blue" id="blue" min="0" max="255"
+                                   value="127">
+                        </div>
+                        <!--</form>-->
+                    </div>
+                </div>
+                <div class="centerindiv">
+                    <a class="waves-effect waves-light green btn" style="width:150px; margin-right: 5px" id="randomBtn">Random</a>
+                    <a class="waves-effect waves-light blue btn" style="width:150px; margin-left: 5px" id="clearBtn">Clear</a>
+                </div>
+            </div>
+
+            <!--</div>-->
+        </div>
+        <!--<div class="col s6 m6 l6">-->
+        <!--<div id="swatch"></div>-->
+        <!--</div>-->
+
+    </div>
+    <script>
+        // MyComponents is a global object where each property is a reference to a component class
+        MyComponents = {}
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAU_cY0FMBbH8U9p5l_pM4pA87p78q40QA",
+            authDomain: "coloringfun.firebaseapp.com",
+            databaseURL: "https://coloringfun.firebaseio.com",
+            storageBucket: "firebase-coloringfun.appspot.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="lib/saveSvgAsPng.js"></script>
+    <script src="js/blockColoring/blockColoring.js"></script>
+    <script type="text/babel" src="js/blockColoring/blockColoring.jsx"></script>
+    <script type="text/babel" src="js/blockColoring/SvgCanvas.jsx"></script>
+    <script type="text/babel" src="js/Auth.jsx"></script>
+    <script type="text/babel" src="js/Navbar.jsx"></script>
+</div>
+<div class="tooltip fixed-action-btn horizontal click-to-toggle " id="gallery" style="bottom: 130px; right: 24px; position: fixed;">
+    <a href="blockGallery.html" class="btn-floating btn-large amber" >
+        <i class="mdi-image-collections"></i>
+    </a>
+    <span class="tooltiptext">Gallery</span>
+</div>
+<div class="fixed-action-btn horizontal click-to-toggle" id="menu" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red" id="menuBtn">
+        <i class="mdi-navigation-menu"></i>
+    </a>
+    <ul>
+        <li style="margin-top: -20px;" id="shareTextHolder">
+            <div class="input-field" id="shareText" style="width: 200px">
+                <input placeholder="URL Address" id="location" type="text" class="validate">
+                <label for="location" style="background-color: white">Copy to share</label>
+            </div>
+        </li>
+        <li class="tooltip"><a class="btn-floating red " id="shareBtn"
+                               style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i
+                class="large mdi-social-share"></i> </a>
+            <span class="tooltiptext">Share</span>
+
+        </li>
+        <li class="tooltip"><a class="btn-floating green" id="saveBtn"
+                               style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i
+                class="large mdi-editor-publish"></i></a>
+            <span class="tooltiptext">Save To Server</span>
+        </li>
+        <li class="tooltip"><a class="btn-floating blue" id="downloadBtn"
+                               style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i
+                class="large mdi-file-file-download"></i></a>
+            <span class="tooltiptext">Download</span>
+        </li>
+        <li class="tooltip"><a class="btn-floating grey" id="deleteBtn"
+                               style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i
+                class="large mdi-action-delete"></i></a>
+            <span class="tooltiptext">Delete</span>
+        </li>
+    </ul>
+
+</div>
+</body>
+</html>
